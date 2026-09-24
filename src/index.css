@@ -1,0 +1,223 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --deep: #0a1628;
+    --deep-2: #10243e;
+    --deep-3: #16304f;
+    --foam: #eef3f8;
+    --foam-dim: #9fb0c3;
+    --gold: #e8b84b;
+    --gold-soft: rgba(232, 184, 75, 0.14);
+    --line: rgba(238, 243, 248, 0.12);
+
+    --background: 215 60% 10%;
+    --foreground: 210 33% 96%;
+    --card: 214 59% 15%;
+    --card-foreground: 210 33% 96%;
+    --popover: 214 59% 12%;
+    --popover-foreground: 210 33% 96%;
+    --primary: 42 78% 60%;
+    --primary-foreground: 215 60% 10%;
+    --secondary: 214 40% 20%;
+    --secondary-foreground: 210 33% 96%;
+    --muted: 214 40% 18%;
+    --muted-foreground: 213 20% 68%;
+    --accent: 214 40% 20%;
+    --accent-foreground: 210 33% 96%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 213 30% 24%;
+    --input: 213 30% 24%;
+    --ring: 42 78% 60%;
+    --radius: 0.625rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--deep);
+    color: var(--foam);
+    font-family: 'Noto Sans SC', 'PingFang SC', 'Hiragino Sans GB',
+      'Microsoft YaHei', 'Source Han Sans SC', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--gold);
+    color: var(--deep);
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--deep);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--deep-3);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--gold);
+  }
+}
+
+@layer utilities {
+  /* 衬线标题：Noto Serif SC，带优雅中文 fallback */
+  .font-serif-sc {
+    font-family: 'Noto Serif SC', 'Songti SC', 'STSong', 'SimSun',
+      'Source Han Serif SC', serif;
+  }
+  /* 展示级英文/数字字体 */
+  .font-display {
+    font-family: 'Fraunces', 'Noto Serif SC', Georgia, 'Times New Roman', serif;
+  }
+
+  /* 描边空心字（页脚巨型字） */
+  .text-stroke {
+    -webkit-text-stroke: 1.5px rgba(238, 243, 248, 0.35);
+    color: transparent;
+  }
+  .text-stroke-gold {
+    -webkit-text-stroke: 1.5px rgba(232, 184, 75, 0.55);
+    color: transparent;
+  }
+  @media (min-width: 768px) {
+    .text-stroke,
+    .text-stroke-gold {
+      -webkit-text-stroke-width: 2px;
+    }
+  }
+
+  /* 中文竖排装饰 */
+  .vertical-rl {
+    writing-mode: vertical-rl;
+    letter-spacing: 0.5em;
+  }
+
+  /* 海洋渐变光晕 */
+  .ocean-glow {
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(22, 48, 79, 0.9), transparent 70%),
+      radial-gradient(ellipse 40% 30% at 85% 20%, rgba(232, 184, 75, 0.07), transparent 70%);
+  }
+
+  /* 细颗粒噪点 */
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* 跑马灯 */
+  @keyframes marquee-x {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  .animate-marquee {
+    animation: marquee-x 36s linear infinite;
+  }
+  .animate-marquee-slow {
+    animation: marquee-x 60s linear infinite;
+  }
+  .marquee-paused:hover .animate-marquee,
+  .marquee-paused:hover .animate-marquee-slow {
+    animation-play-state: paused;
+  }
+
+  /* 下划线扫入按钮 */
+  .link-sweep {
+    position: relative;
+  }
+  .link-sweep::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .link-sweep:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  /* 金色描边胶囊按钮：hover 填充 */
+  .btn-gold {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    border-radius: 999px;
+    transition: color 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .btn-gold::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--gold);
+    transform: translateY(101%);
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .btn-gold:hover {
+    color: var(--deep);
+  }
+  .btn-gold:hover::before {
+    transform: translateY(0);
+  }
+
+  /* 可编辑区域提示（仅管理模式） */
+  .editable-active {
+    outline: 1px dashed rgba(232, 184, 75, 0.5);
+    outline-offset: 4px;
+    border-radius: 2px;
+    cursor: text;
+    transition: outline-color 0.2s;
+  }
+  .editable-active:hover,
+  .editable-active:focus {
+    outline-color: var(--gold);
+  }
+
+  /* 灯塔光束呼吸 */
+  @keyframes beacon-pulse {
+    0%,
+    100% {
+      opacity: 0.5;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.15);
+    }
+  }
+  .animate-beacon {
+    animation: beacon-pulse 3.2s ease-in-out infinite;
+  }
+}
